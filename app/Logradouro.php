@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Bairro;
 use DB;
 
 class Logradouro extends Model
@@ -22,5 +23,10 @@ class Logradouro extends Model
         ->where('cd.id', '=', $cidade)
         ->where('l.nome', '=', $logradouro);
 
+    }
+
+    public function bairro()
+    {
+        return $this->belongsTo(Bairro::class, 'bairro_id');
     }
 }

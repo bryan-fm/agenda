@@ -104,17 +104,7 @@
 <script>
     $(document).ready(function () 
     {
-
-        $("#cep").inputmask({
-                mask: ["99999-999"],
-                keepStatic: true
-            });
-
-        function clearCep()
-        {
-            $('.clear-cep').val('');
-        }
-
+        
         $("#jsGrid").jsGrid({
         width: "100%",
         height: "400px",
@@ -137,17 +127,70 @@
         ]
         });
 
-        $('#add_tel').on('click',function(){
+        @if(isset($contato))
+        {
+            $('#nome').val('{{$contato->nome}}');
+            $('#apelido').val('{{$contato->apelido}}');
 
-            var telefone = document.createElement("input");
-            telefone.type = "text"; telefone.value = ""; telefone.className = "numero col-md-3 form-control mr-4 ml-5 mb-2";
-            document.getElementById('telefones').appendChild(telefone);
+            @foreach($contato->telefones as $telefone)
+            {
+                addTelInput('{{$telefone->numero}}');
+            }
+            @endforeach
 
+            @foreach($contato->enderecos as $end)
+            {
+                $("#jsGrid").jsGrid("insertItem", 
+                { 
+                    cep: '{!!$end->logradouro->cep!!}',
+                    log: '{!!$end->logradouro->nome!!}', 
+                    num: '{!!$end->numero!!}', 
+                    bairro: '{!!$end->logradouro->bairro->nome!!}', 
+                    cidade: '{!!$end->logradouro->bairro->cidade->nome!!}',
+                    estado: '{!!$end->logradouro->bairro->cidade->uf->sigla!!}',
+                });
+            }
+            @endforeach
+
+        }
+        @endif
+
+        $("#cep").inputmask({
+                mask: ["99999-999"],
+                keepStatic: true
+            });
+
+        function clearCep()
+        {
+            $('.clear-cep').val('');
+        }
+
+        function addTelMask()
+        {
             $(".numero").inputmask({
                 mask: ["(99) 9999-9999", "(99) 99999-9999", ],
                 keepStatic: true
             });
+        }
 
+        function addTelInput(num = 0)
+        {
+            var telefone = document.createElement("input");
+            telefone.type = "text"; telefone.value = ""; telefone.className = "numero col-md-3 form-control mr-4 ml-5 mb-2";
+
+            if(num!= 0)
+            {
+                telefone.value = num;
+            }
+
+            document.getElementById('telefones').appendChild(telefone);
+
+            addTelMask();
+        }
+
+
+        $('#add_tel').on('click',function(){
+            addTelInput();
         });
 
         $('#del_tel').on('click',function(){
@@ -234,6 +277,16 @@
                 telefones.push($(form_tel[i]).val());
             }
 
+            @if(isset($contato))
+            {
+                id = '{{$contato->id}}'
+            }
+            @else
+            {
+                id = 0;
+            }
+            @endif
+
 
 
 
@@ -249,7 +302,8 @@
                     nome:nome,
                     apelido:apelido,
                     telefones:telefones,
-                    enderecos: enderecos
+                    enderecos: enderecos,
+                    id: id,
                 },
             success: function(resposta){
                 if (resposta.success){
@@ -265,7 +319,6 @@
             }
             });
         });
-
 
     });
 

@@ -26,5 +26,6 @@ Route::group(['middleware' => 'auth', 'prefix'=>'contatos'], function(){
     Route::get('/','ContatosController@index');
     Route::get('/addFormContatos', ['as' => 'add_form_contatos', 'uses' => 'ContatosController@addForm']);
     Route::post('/insertContatos', ['as' => 'insert_contatos', 'uses' => 'ContatosController@store']);
+    Route::get('/editFormContatos/{id}', ['as' => 'edit_form_contatos', 'uses' => 'ContatosController@editForm']);
 
 });

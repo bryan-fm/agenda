@@ -10,6 +10,7 @@ use App\Cidade;
 use App\Bairro;
 use App\Logradouro;
 use App\Endereco;
+use Auth;
 use DB;
 
 class ContatosController extends Controller
@@ -17,7 +18,8 @@ class ContatosController extends Controller
 
     public function index()
     {
-        $contatos = Contato::all();
+        $user_id = Auth::id();
+        $contatos = Contato::all()->where('user_id', '=', $user_id);
         return view('contatos.ContatosGrid',[
             'contatos' => $contatos
         ]);
@@ -26,20 +28,42 @@ class ContatosController extends Controller
 
     public function addForm()
     {
-        return view('contatos.ContatosForm');
+        return view('contatos.ContatosForm',[
+            'action' => 'add'
+        ]);
+    }
+
+    public function editForm($id)
+    {
+        $contato = Contato::find($id);
+        return view('contatos.ContatosForm',[
+            'action' => 'edit',
+            'contato' => $contato
+        ]);
     }
 
     public function store(Request $request)
     {
-        //$this->validaForm($request);
+        $this->validaForm($request);
 
+        $user_id = Auth::id();
+        
         try {
             DB::beginTransaction();
-            $contato = new Contato();
 
+            $contato = new Contato();
+            if($request->id != 0)
+            {
+                $contato = Contato::find($request->id);
+                Telefone::where('contato_id', $request->id)->delete();
+                Endereco::where('contato_id', $request->id)->delete();
+            }
+                
             $contato->nome = $request->nome;
             $contato->apelido = $request->apelido;
+            $contato->user_id = $user_id;
             $contato->save();
+
 
             foreach($request->telefones as $num)
             {
@@ -120,51 +144,15 @@ class ContatosController extends Controller
         }
 
         DB::commit();
+        if($request->id != 0)
+            return response()->json(['success' => true, 'message' => 'Registro Editado com Sucesso!']);
+
         return response()->json(['success' => true, 'message' => 'Registro Cadastrado com Sucesso!']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function delete($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        
     }
 }

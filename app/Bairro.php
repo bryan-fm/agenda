@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Cidade;
 use DB;
 
 class Bairro extends Model
@@ -18,6 +19,11 @@ class Bairro extends Model
         join uf on uf.id = c.uf_id
         where c.id = ? and
         uf.id = ? and b.nome = ?',[$cidade,$uf, $bairro]);
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo(Cidade::class, 'cidade_id');
     }
 
 }

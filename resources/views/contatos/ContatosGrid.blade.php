@@ -13,7 +13,7 @@
                                 @foreach($contatos as $key => $data)
                                     <tr>    
                                         <td>{{$data->id}}</th>
-                                        <td>{{$data->nome}}</th>
+                                        <td><a href="/contatos/editFormContatos/{{$data->id}}">{{$data->nome}}</a></th>
                                         <td>{{$data->apelido}}</th>               
                                     </tr>
                                 @endforeach

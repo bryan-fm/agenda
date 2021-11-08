@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\UF;
 use DB;
 
 class Cidade extends Model
@@ -18,6 +19,11 @@ class Cidade extends Model
            where c.nome = ? and
            uf.id = ?',[$nome,$uf]
        );
+    }
+
+    public function uf()
+    {
+        return $this->belongsTo(UF::class, 'uf_id');
     }
 }
 

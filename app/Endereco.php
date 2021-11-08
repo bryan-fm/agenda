@@ -3,6 +3,8 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Logradouro;
+use App\Contato;
 use DB;
 
 class Endereco extends Model
@@ -18,5 +20,15 @@ class Endereco extends Model
         ->where('e.logradouro_id', '=', $logradouro);
 
         return $end;
+    }
+
+    public function logradouro()
+    {
+        return $this->belongsTo(Logradouro::class, 'logradouro_id');
+    }
+
+    public function contato()
+    {
+        return $this->belongsTo(Contato::class, 'contato_id');
     }
 }
