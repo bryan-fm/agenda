@@ -195,8 +195,11 @@
 
         $('#del_tel').on('click',function(){
 
-            var list = document.getElementById("telefones"); 
-            list.removeChild(list.childNodes[list.childNodes.length -1]);
+            if($('#telefones').children().length > 0)
+            {
+                var list = document.getElementById("telefones"); 
+                list.removeChild(list.childNodes[list.childNodes.length -1]);
+            }
 
         });
 
