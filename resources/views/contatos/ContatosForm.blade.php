@@ -257,10 +257,6 @@
 
             var form_tel = $(".numero");
 
-            if(form_tel.length == 0)
-            {
-                return alert('Informe ao menos um telefone');
-            }
             if(enderecos.length == 0)
             {
                 return alert('Informe ao menos um endereço');
@@ -315,7 +311,7 @@
             },
             error: function(error)
             {
-                alert(error)
+                alert(JSON.stringify(error));
             }
             });
         });

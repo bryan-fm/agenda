@@ -27,5 +27,8 @@ Route::group(['middleware' => 'auth', 'prefix'=>'contatos'], function(){
     Route::get('/addFormContatos', ['as' => 'add_form_contatos', 'uses' => 'ContatosController@addForm']);
     Route::post('/insertContatos', ['as' => 'insert_contatos', 'uses' => 'ContatosController@store']);
     Route::get('/editFormContatos/{id}', ['as' => 'edit_form_contatos', 'uses' => 'ContatosController@editForm']);
+    Route::get('/deleteContatos/{id}', ['as' => 'delete_contato', 'uses' => 'ContatosController@delete']);
+
+    Route::get('/filtrarContatos', ['as' => 'filtrar_contato', 'uses' => 'ContatosController@filtrar']);
 
 });

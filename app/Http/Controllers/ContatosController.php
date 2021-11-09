@@ -153,6 +153,47 @@ class ContatosController extends Controller
 
     public function delete($id)
     {
+        try 
+        {
+            DB::beginTransaction();
+            Telefone::where('contato_id', $id)->delete();
+            Endereco::where('contato_id', $id)->delete();
+            Contato::find($id)->delete();
+        }
+        catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+
+        }
+        DB::commit();
+        return response()->json(['success' => true, 'message' => 'Registro Deletado com Sucesso!']);
+
+    }
+    
+    public function filtrar(Request $request)
+    {
+        return response()->json(['success' => true, 'message' => Contato::Where('nome', 'like', '%' . $request->nome . '%')->get()]);
+    }
+
+    public function validaForm(Request $request)
+    {
+
+        $customMessages = [
+            'nome.required' => 'O Nome do contato deve ser informado',
+            'apelido.required' => 'O Apelido do contato deve ser informado',
+            'telefones.required' => 'O Contato deve ter ao menos um telefone',
+            'endereco.required' => 'O Contato deve ter ao menos um endereço'
+        ];
+
+
+        $this->validate($request, [
+            'nome' => 'required|string',
+            'apelido' => 'required|string',
+            'telefones' =>'required|array|min:1',
+            'enderecos' =>'required|array|min:1'
+        ], $customMessages);
         
     }
+
+
 }
