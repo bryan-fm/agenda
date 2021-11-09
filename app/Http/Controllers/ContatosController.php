@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Contato;
+use App\Categoria;
 use App\Telefone;
 use App\UF;
 use App\Cidade;
@@ -28,17 +29,21 @@ class ContatosController extends Controller
 
     public function addForm()
     {
+        $categorias = Categoria::all();
         return view('contatos.ContatosForm',[
-            'action' => 'add'
+            'action' => 'add',
+            'categorias' => $categorias
         ]);
     }
 
     public function editForm($id)
     {
         $contato = Contato::find($id);
+        $categorias = Categoria::all();
         return view('contatos.ContatosForm',[
             'action' => 'edit',
-            'contato' => $contato
+            'contato' => $contato,
+            'categorias' => $categorias
         ]);
     }
 
@@ -62,6 +67,7 @@ class ContatosController extends Controller
             $contato->nome = $request->nome;
             $contato->apelido = $request->apelido;
             $contato->user_id = $user_id;
+            $contato->categoria_id = $request->categoria;
             $contato->save();
 
 
@@ -172,7 +178,12 @@ class ContatosController extends Controller
     
     public function filtrar(Request $request)
     {
-        return response()->json(['success' => true, 'message' => Contato::Where('nome', 'like', '%' . $request->nome . '%')->get()]);
+        $contatos_f = DB::table('contatos as c')
+        ->selectRaw('c.nome, c.apelido, c.id, cat.descricao as categoria')
+        ->join('categoria as cat', 'cat.id', '=', 'c.categoria_id')
+        ->where('nome', 'like', '%' . $request->nome . '%')->get();
+
+        return response()->json(['success' => true, 'message' => $contatos_f]);
     }
 
     public function validaForm(Request $request)
@@ -182,7 +193,8 @@ class ContatosController extends Controller
             'nome.required' => 'O Nome do contato deve ser informado',
             'apelido.required' => 'O Apelido do contato deve ser informado',
             'telefones.required' => 'O Contato deve ter ao menos um telefone',
-            'endereco.required' => 'O Contato deve ter ao menos um endereço'
+            'endereco.required' => 'O Contato deve ter ao menos um endereço',
+            'categoria.required' => 'A Categoria do contato deve ser informada'
         ];
 
 
@@ -190,7 +202,8 @@ class ContatosController extends Controller
             'nome' => 'required|string',
             'apelido' => 'required|string',
             'telefones' =>'required|array|min:1',
-            'enderecos' =>'required|array|min:1'
+            'enderecos' =>'required|array|min:1',
+            'categoria' =>'required|string|notin:0'
         ], $customMessages);
         
     }

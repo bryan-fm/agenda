@@ -32,3 +32,13 @@ Route::group(['middleware' => 'auth', 'prefix'=>'contatos'], function(){
     Route::get('/filtrarContatos', ['as' => 'filtrar_contato', 'uses' => 'ContatosController@filtrar']);
 
 });
+
+Route::group(['middleware' => 'auth', 'prefix'=>'categoria'], function(){
+
+    Route::get('/','CategoriaController@index');
+    Route::get('/addFormCategoria', ['as' => 'add_form_categoria', 'uses' => 'CategoriaController@addForm']);
+    Route::get('/editFormCategoria/{id}', ['as' => 'edit_form_categoria', 'uses' => 'CategoriaController@editForm']);
+    Route::post('/insertCategoria', ['as' => 'insert_categoria', 'uses' => 'CategoriaController@store']);
+    Route::get('/deleteCategoria/{id}', ['as' => 'delete_categoria', 'uses' => 'CategoriaController@delete']);
+
+});

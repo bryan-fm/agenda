@@ -11,16 +11,28 @@
                     <div class="card-body">
 
                     <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">Nome</label> 
+                            <label for="nome" class="col-md-4 col-form-label text-md-right">Nome</label> 
                             <div class="col-md-6">
                                 <input id="nome" required="required" autofocus="autofocus" class="form-control">
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">Apelido</label> 
+                            <label for="apelido" class="col-md-4 col-form-label text-md-right">Apelido</label> 
                             <div class="col-md-6">
                                 <input id="apelido" required="required" autofocus="autofocus" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="cat-combo" class="col-md-4 col-form-label text-md-right">Categoria</label>
+                            <div class="col-md-6">
+                                <select id="cat-combo" class="form-control ">
+                                    <option value=0>Selecione uma Categoria</option>
+                                    @foreach ($categorias as $cat)
+                                        <option value="{{$cat->id}}">{{$cat->descricao}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -131,6 +143,7 @@
         {
             $('#nome').val('{{$contato->nome}}');
             $('#apelido').val('{{$contato->apelido}}');
+            $('#cat-combo').val('{{$contato->categoria->id}}');
 
             @foreach($contato->telefones as $telefone)
             {
@@ -254,12 +267,30 @@
             apelido = $('#apelido').val();
             telefones = [];
             enderecos  = $("#jsGrid").jsGrid("option", "data");
+            categoria = $('#cat-combo').val();
 
 
             url = '/contatos/insertContatos';
 
             var form_tel = $(".numero");
 
+
+            if(categoria == 0)
+            {
+                return alert('Informe a Categoria');
+            }
+            if(nome == '')
+            {
+                return alert('Informe o Nome');
+            }
+            if(apelido == '')
+            {
+                return alert('Informe o Apelido');
+            }
+            if(form_tel.length == 0)
+            {
+                return alert('Informe ao menos um telefone');
+            }
             if(enderecos.length == 0)
             {
                 return alert('Informe ao menos um endereço');
@@ -303,6 +334,7 @@
                     telefones:telefones,
                     enderecos: enderecos,
                     id: id,
+                    categoria: categoria
                 },
             success: function(resposta){
                 if (resposta.success){

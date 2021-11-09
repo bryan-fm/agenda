@@ -21,5 +21,10 @@ class Contato extends Model
         return $this->hasMany(Endereco::class,'contato_id','id');
     }
 
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class,'categoria_id','id');
+    }
+
 }
 

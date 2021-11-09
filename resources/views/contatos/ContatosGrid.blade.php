@@ -6,8 +6,11 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Contatos  <a href="/contatos/addFormContatos" class="btn btn-info float-right" role="button">Adicionar Contato</a>
-                    <label for="pesquisa" class="col-md-4 col-form-label text-md-right">Pesquisar:</label> 
-                    <input id="pesquisa"class=" col-md-4 col-form-label">
+                    <label for="pesquisa_n" class="col-md-2 text-md-right">Nome:</label> 
+                    <input id="pesquisa_n"class=" col-md-2">
+
+                    <label for="pesquisa_c" class="col-md-2 text-md-right">Categoria:</label> 
+                    <input id="pesquisa_c"class=" col-md-2">
                 </div> 
                     <div class="card-body">
                         <div class="table-responsive border-0">
@@ -17,7 +20,8 @@
                                     <tr>    
                                         <td>{{$data->id}}</td>
                                         <td><a href="/contatos/editFormContatos/{{$data->id}}">{{$data->nome}}</a></td>
-                                        <td>{{$data->apelido}}</td>     
+                                        <td>{{$data->apelido}}</td>  
+                                        <td>{{$data->categoria->descricao}}</td>        
                                         <td><a href="/contatos/deleteContatos/{{$data->id}}" class="btn btn-danger float-right" role="button">Deletar</a></td>             
                                     </tr>
                                 @endforeach
@@ -60,6 +64,7 @@
                         $("#contatos").append('<td>' + cont.id + '</td>');
                         $("#contatos").append('<td><a href="/contatos/editFormContatos/'+ cont.id +'">' + cont.nome +'</td>');  
                         $("#contatos").append('<td>' + cont.apelido + '</td>');
+                        $("#contatos").append('<td>' + cont.categoria + '</td>');
                         $("#contatos").append('<td><a href="/contatos/deleteContatos/' + cont.id + '"' + 'class="btn btn-danger float-right" role="button">Deletar</a></td>')
                         $("#contatos").append('</tr>');
 
