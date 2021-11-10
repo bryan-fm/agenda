@@ -44,7 +44,7 @@
     $(document).ready(function () 
     {
         @if(sizeof($categorias) == 0)
-            return alert("O Sistema ainda não Possui Categorias cadastradas, faça o cadastro de alguma para vincular os contatos");
+            return alert("O Sistema ainda não Possui Categorias cadastradas, faça o cadastro de alguma para vincular aos contatos");
         @endif
 
         $('#pesquisa_n').on('change', function(){
