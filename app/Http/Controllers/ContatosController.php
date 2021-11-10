@@ -13,6 +13,8 @@ use App\Logradouro;
 use App\Endereco;
 use Auth;
 use DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMailUser;
 
 class ContatosController extends Controller
 {
@@ -152,9 +154,13 @@ class ContatosController extends Controller
         }
 
         DB::commit();
+
         if($request->id != 0)
             return response()->json(['success' => true, 'message' => 'Registro Editado com Sucesso!']);
 
+        $to = Auth::user()->email;
+        Mail::to($to)->send(new SendMailUser($contato));
+        
         return response()->json(['success' => true, 'message' => 'Registro Cadastrado com Sucesso!']);
     }
 
