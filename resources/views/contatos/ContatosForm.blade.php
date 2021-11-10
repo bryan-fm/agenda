@@ -97,7 +97,9 @@
                                 </div>
 
                                 <br>
-                                <div id="jsGrid"></div>
+                                <div class="card-content collapse show">
+                                    <div id="jsGrid"></div>
+                                </div>
                             </div>
                         </div> 
 
@@ -125,17 +127,23 @@
         editing: true,
         sorting: true,
         paging: true,
+
+                pageSize: 15,
+        pageButtonCount: 5,
+ 
+        deleteConfirm: "Do you really want to delete the client?",
+
  
  
         fields: [
             { name: "id", title: "ID", type: "text", visible: false},
-            { name: "cep", title: "CEP", type:'text', width: '10%'},
-            { name: "log", title: "Logradouro", type: "text", width: '30%'},
-            { name: "num", title: "Número", type: "number", width: '7%' },
-            { name: "bairro", title: "Bairro", type: "text", width: '25%' },
-            { name: "cidade", title: "Cidade", type: "text",  width: '16%'},
-            { name: "estado", title: "UF", type: "text",  width:'7%' },
-            { type: "control", width: '5%'}
+            { name: "cep", title: "CEP", type:'text', width: '85px'},
+            { name: "log", title: "Logradouro", type: "text", width: '260px'},
+            { name: "num", title: "Número", type: "number", width: '70px' },
+            { name: "bairro", title: "Bairro", type: "text", width: '230px' },
+            { name: "cidade", title: "Cidade", type: "text",  width: '145px'},
+            { name: "estado", title: "UF", type: "text",  width:'50px' },
+            { type: "control", width: '40px'}
         ]
         });
 
