@@ -121,7 +121,7 @@
                         $("#contatos").append('<td><a href="/contatos/editFormContatos/'+ cont.id +'">' + cont.nome +'</td>');  
                         $("#contatos").append('<td>' + cont.apelido + '</td>');
                         $("#contatos").append('<td>' + cont.categoria + '</td>');
-                        $("#contatos").append('<td><a href="/contatos/deleteContatos/' + cont.id + '"' + 'class="btn btn-danger float-right" role="button">Deletar</a></td>')
+                        $("#contatos").append('<td><a href="/contatos/deleteContatos/' + cont.id + '"' + 'class="btn btn-danger float-right delete" role="button">Deletar</a></td>')
                         $("#contatos").append('</tr>');
 
                     });
