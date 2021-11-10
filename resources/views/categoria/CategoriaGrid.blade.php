@@ -15,7 +15,7 @@
                                     <tr>    
                                         <td>{{$data->id}}</td>
                                         <td><a href="/categoria/editFormCategoria/{{$data->id}}">{{$data->descricao}}</a></td>  
-                                        <td><a href="/categoria/deleteCategoria/{{$data->id}}" class="btn btn-danger float-right" role="button">Deletar</a></td>         
+                                        <td><a class="btn btn-danger float-right delete" id="{{$data->id}}" role="button">Deletar</a></td>         
                                     </tr>
                                 @endforeach
 
@@ -32,7 +32,35 @@
     $(document).ready(function () 
     {
 
-    }
+        $('.delete').on('click', function(event){
+
+            url = '/categoria/deleteCategoria/'+ event.target.id;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                method: "GET",
+                url : url, 
+                data:{
+                },
+            success: function(resposta){
+                if (resposta.success){
+                    alert(resposta.message);
+                    window.location.href = '/categoria';
+                }else{
+                    alert(resposta.message);
+                }
+            },
+            error: function(error)
+            {
+                alert(JSON.stringify(error));
+            }
+            });
+        });
+
+    });
 </script>
 
 @endsection

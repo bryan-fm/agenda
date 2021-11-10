@@ -63,6 +63,10 @@ class CategoriaController extends Controller
 
     public function delete($id)
     {
+        if(sizeof(Categoria::find($id)->contatos_vinculados) > 0)
+        {
+            return response()->json(['success' => false, 'message' => 'A categoria não pode ser apagada pois existem contatos vinculados']);
+        }
         try 
         {
             DB::beginTransaction();

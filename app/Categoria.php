@@ -10,8 +10,8 @@ class Categoria extends Model
     public $timestamps = false;
     protected $table = 'categoria';
 
-    public function contatos()
+    public function contatos_vinculados()
     {
-        return $this->hasMany(Contato::class,'contato_id','id');
+        return $this->hasMany(Contato::class,'categoria_id','id');
     }
 }

@@ -27,7 +27,7 @@
                                         <td><a href="/contatos/editFormContatos/{{$data->id}}">{{$data->nome}}</a></td>
                                         <td>{{$data->apelido}}</td>  
                                         <td>{{$data->categoria->descricao}}</td>        
-                                        <td><a href="/contatos/deleteContatos/{{$data->id}}" class="btn btn-danger float-right" role="button">Deletar</a></td>             
+                                        <td><a class="btn btn-danger float-right delete" id='{{$data->id}}' role="button">Deletar</a></td>             
                                     </tr>
                                 @endforeach
 
@@ -50,6 +50,35 @@
 
         $('#pesquisa_c').on('change', function(){
             filtraContatos(2)
+        });
+
+        $('.delete').on('click', function(event){
+
+            
+            url = '/contatos/deleteContatos/'+ event.target.id;
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                method: "GET",
+                url : url, 
+                data:{
+                },
+            success: function(resposta){
+                if (resposta.success){
+                    alert(resposta.message, true);
+                    window.location.href = '/contatos';
+                }else{
+                    alert(JSON.stringify(resposta));
+                }
+            },
+            error: function(error)
+            {
+                alert(JSON.stringify(error));
+            }
+            });
         });
 
         function filtraContatos(tipo)

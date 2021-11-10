@@ -33,17 +33,19 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    Home
-                </a>
+                @guest
+                    <a class="navbar-brand">
+                        Faça Login para ter acesso aos dados
+                    </a>
+                @else
+                    <a class="navbar-brand" href="{{ url('/contatos') }}">
+                        Contatos
+                    </a>
 
-                <a class="navbar-brand" href="{{ url('/contatos') }}">
-                    Contatos
-                </a>
-
-                <a class="navbar-brand" href="{{ url('/categoria') }}">
-                    Categorias
-                </a>
+                    <a class="navbar-brand" href="{{ url('/categoria') }}">
+                        Categorias
+                    </a>
+                @endguest
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
