@@ -128,12 +128,9 @@
         sorting: true,
         paging: true,
 
-                pageSize: 15,
-        pageButtonCount: 5,
  
-        deleteConfirm: "Do you really want to delete the client?",
+        deleteConfirm: "Confirme a exclusão do registro!",
 
- 
  
         fields: [
             { name: "id", title: "ID", type: "text", visible: false},

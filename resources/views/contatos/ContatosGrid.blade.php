@@ -10,7 +10,12 @@
                     <input id="pesquisa_n"class=" col-md-2">
 
                     <label for="pesquisa_c" class="col-md-2 text-md-right">Categoria:</label> 
-                    <input id="pesquisa_c"class=" col-md-2">
+                    <select id="pesquisa_c" class="col-md-3 text-md">
+                        <option value=0>Selecione uma Categoria</option>
+                        @foreach ($categorias as $cat)
+                            <option value="{{$cat->id}}">{{$cat->descricao}}</option>
+                        @endforeach
+                    </select>
                 </div> 
                     <div class="card-body">
                         <div class="table-responsive border-0">
@@ -39,7 +44,26 @@
     $(document).ready(function () 
     {
 
-        $('#pesquisa').on('change', function(){
+        $('#pesquisa_n').on('change', function(){
+            filtraContatos(1)
+        });
+
+        $('#pesquisa_c').on('change', function(){
+            filtraContatos(2)
+        });
+
+        function filtraContatos(tipo)
+        {
+            if(tipo == 1) 
+            {
+                filtro = $('#pesquisa_n').val();
+                url = '/contatos/filtrarContatosNome';
+            }
+            else if(tipo == 2)
+            {
+                filtro = $('#pesquisa_c').val();
+                url = '/contatos/filtrarContatosCategoria';
+            }
 
             $.ajaxSetup({
                 headers: {
@@ -48,9 +72,9 @@
             });
             $.ajax({
                 method: "GET",
-                url : '/contatos/filtrarContatos', 
+                url : url, 
                 data:{
-                    nome:$('#pesquisa').val(),
+                    filtro:filtro
                 },
             success: function(resposta){
                 if (resposta.success){
@@ -79,10 +103,7 @@
                 alert(JSON.stringify(error));
             }
             });
-            
-
-
-        });
+        }
 
     });
 

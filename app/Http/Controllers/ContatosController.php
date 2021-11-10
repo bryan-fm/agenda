@@ -20,9 +20,11 @@ class ContatosController extends Controller
     public function index()
     {
         $user_id = Auth::id();
+        $categorias = Categoria::all();
         $contatos = Contato::all()->where('user_id', '=', $user_id);
         return view('contatos.ContatosGrid',[
-            'contatos' => $contatos
+            'contatos' => $contatos,
+            'categorias' => $categorias
         ]);
 
     }
@@ -176,12 +178,22 @@ class ContatosController extends Controller
 
     }
     
-    public function filtrar(Request $request)
+    public function filtrarNome(Request $request)
     {
         $contatos_f = DB::table('contatos as c')
         ->selectRaw('c.nome, c.apelido, c.id, cat.descricao as categoria')
         ->join('categoria as cat', 'cat.id', '=', 'c.categoria_id')
-        ->where('nome', 'like', '%' . $request->nome . '%')->get();
+        ->where('nome', 'like', '%' . $request->filtro . '%')->get();
+
+        return response()->json(['success' => true, 'message' => $contatos_f]);
+    }
+
+    public function filtrarCategoria(Request $request)
+    {
+        $contatos_f = DB::table('contatos as c')
+        ->selectRaw('c.nome, c.apelido, c.id, cat.descricao as categoria')
+        ->join('categoria as cat', 'cat.id', '=', 'c.categoria_id')
+        ->where('cat.id', '=', $request->filtro)->get();
 
         return response()->json(['success' => true, 'message' => $contatos_f]);
     }
