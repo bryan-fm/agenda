@@ -17,6 +17,10 @@ Route::get('/', function () {
     return redirect()->route('home');
 });
 
+Route::get('/home', function () {
+    return redirect()->route('home');
+});
+
 Auth::routes();
 
 Route::group(['middleware' => 'auth', 'prefix'=>'contatos'], function(){
