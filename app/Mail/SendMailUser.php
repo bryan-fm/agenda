@@ -17,6 +17,9 @@ class SendMailUser extends Mailable
      *
      * @return void
      */
+
+    public $param;
+    public $user;
     public function __construct($param)
     {
         $this->param = $param;
@@ -31,10 +34,6 @@ class SendMailUser extends Mailable
     public function build()
     {
         return $this->from('to@email.com')
-        ->view('email.teste')
-        ->with([
-            'user' => $this->user,
-            'contato' => $this->param,
-        ]);
+        ->view('email.teste');
     }
 }

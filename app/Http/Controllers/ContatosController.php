@@ -15,6 +15,7 @@ use Auth;
 use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendMailUser;
+use App\Jobs\ContactEmailJob;
 
 class ContatosController extends Controller
 {
@@ -158,8 +159,8 @@ class ContatosController extends Controller
         if($request->id != 0)
             return response()->json(['success' => true, 'message' => 'Registro Editado com Sucesso!']);
 
-        $to = Auth::user()->email;
-        Mail::to($to)->send(new SendMailUser($contato));
+        $mail = Auth::user()->email;
+        dispatch(new ContactEmailJob($contato,$mail))->onQueue('email');
         
         return response()->json(['success' => true, 'message' => 'Registro Cadastrado com Sucesso!']);
     }
