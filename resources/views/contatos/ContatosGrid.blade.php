@@ -11,7 +11,7 @@
 
                     <label for="pesquisa_c" class="col-md-2 text-md-right">Categoria:</label> 
                     <select id="pesquisa_c" class="col-md-3 text-md">
-                        <option value=0>Selecione uma Categoria</option>
+                        <option value=0>Todos</option>
                         @foreach ($categorias as $cat)
                             <option value="{{$cat->id}}">{{$cat->descricao}}</option>
                         @endforeach

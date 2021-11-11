@@ -86,8 +86,8 @@
                                     </div>
 
                                     <div class="col-md-2">
-                                        <label for="numero" class="col-form-label">Número:</label> 
-                                        <input id="numero" class="form-control col-md-12 clear-cep">
+                                        <label for="numero" class="col-form-label" >Número:</label> 
+                                        <input id="numero" class="form-control col-md-12 clear-cep" input type="number">
                                     </div>
 
                                     <div class="col-md-1"> 

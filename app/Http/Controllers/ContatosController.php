@@ -200,7 +200,7 @@ class ContatosController extends Controller
         $contatos_f = DB::table('contatos as c')
         ->selectRaw('c.nome, c.apelido, c.id, cat.descricao as categoria')
         ->join('categoria as cat', 'cat.id', '=', 'c.categoria_id')
-        ->where('cat.id', '=', $request->filtro)->get();
+        ->whereRaw('cat.id = ? or ? = 0',[$request->filtro,$request->filtro])->get();
 
         return response()->json(['success' => true, 'message' => $contatos_f]);
     }
